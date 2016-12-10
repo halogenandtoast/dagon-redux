@@ -1,10 +1,11 @@
-all: dagon
-
+SRC=main.c node.c parse.tab.c lex.yy.c list.c
 CC=cc
 LEX=flex
 YACC=bison
 
-dagon: main.c parse.tab.c lex.yy.c
+all: dagon
+
+dagon: ${SRC}
 	${CC} $^ -o $@
 
 parse.tab.c: parse.y

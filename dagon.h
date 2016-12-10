@@ -1,13 +1,9 @@
 #ifndef _DAGON_H_
 #define _DAGON_H_
 
-typedef enum {
-  STRING_NODE
-} dagon_node_t;
+#include "node.h"
 
-typedef struct {
-  dagon_node_t type;
-} dagon_node;
+typedef unsigned long dagon_value;
 
 typedef struct {
   dagon_node* node;

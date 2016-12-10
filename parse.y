@@ -34,8 +34,8 @@
 program: statements { env->node = $1; }
        | opt_newlines { $$ = NULL; env->node = NULL; }
 
-statements: statements newlines statement { dagon_list_append($$, $3); }
-          | statement { $$ = dagon_list_new(); dagon_list_append($$, $1); }
+statements: statements newlines statement { dagon_list_node_append($$, $3); }
+          | statement { $$ = dagon_list_node_new(); dagon_list_node_append($$, $1); }
 
 statement: assignment
          | expression
@@ -43,16 +43,16 @@ statement: assignment
 
 class_definition: CONSTANT ':' INDENT method_definitions opt_newlines DEDENT { $$ = dagon_class_definition_node_new($1, $4); }
 
-method_definitions: method_definitions newlines method_definition { dagon_list_append($$, $3); }
-                  | method_definition { $$ = dagon_list_new(); dagon_list_append($$, $1); }
+method_definitions: method_definitions newlines method_definition { dagon_list_node_append($$, $3); }
+                  | method_definition { $$ = dagon_list_node_new(); dagon_list_node_append($$, $1); }
 
-method_definition: ID ':' block { $$ = dagon_method_definition_node_new($1, dagon_list_new(), $3); }
+method_definition: ID ':' block { $$ = dagon_method_definition_node_new($1, dagon_list_node_new(), $3); }
                  | ID '(' id_list ')' ':' block { $$ = dagon_method_definition_node_new($1, $3, $6); }
 
 block: INDENT statements opt_newlines DEDENT { $$ = dagon_block_node_new($2); }
 
-id_list: id_list COMMA ID { dagon_list_append($$, dagon_string_node_new($3)); }
-       | ID { $$ = dagon_list_new(); dagon_list_append($$, dagon_string_node_new($1)); }
+id_list: id_list COMMA ID { dagon_list_node_append($$, dagon_string_node_new($3)); }
+       | ID { $$ = dagon_list_node_new(); dagon_list_node_append($$, dagon_string_node_new($1)); }
 
 assignment: variable ASSIGN expression { $$ = dagon_assignment_node_new($1, $3); }
 
@@ -68,11 +68,11 @@ literal: STRING { $$ = dagon_string_node_new($1); }
 
 constructor: CONSTANT '(' argument_list ')' { $$ = dagon_class_new_node($1, $3); }
 
-method_call: variable '.' ID { $$ = dagon_method_call_node($1, $3, dagon_list_new()); }
+method_call: variable '.' ID { $$ = dagon_method_call_node($1, $3, dagon_list_node_new()); }
            | ID '(' argument_list ')' { $$ = dagon_self_method_call_node($1, $3); }
 
-argument_list: argument_list COMMA expression { dagon_list_append($$, $3); }
-             | expression { $$ = dagon_list_new($1); }
+argument_list: argument_list COMMA expression { dagon_list_node_append($$, $3); }
+             | expression { $$ = dagon_list_node_new($1); }
 
 newlines: newlines NEWLINE
         | NEWLINE
