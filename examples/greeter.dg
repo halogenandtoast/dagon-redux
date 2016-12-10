@@ -3,7 +3,7 @@ Greeter:
     @name: name
 
   greet:
-    puts "Hello #{name}"
+    puts("Hello #{name}")
 
 greeter: Greeter("Goose")
 greeter.greet
