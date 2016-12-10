@@ -1,2 +1,6 @@
 dagon
 lex.yy.c
+lex.yy.h
+parse.output
+parse.tab.c
+parse.tab.h

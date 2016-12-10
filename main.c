@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "lex.yy.c"
+#include "parse.tab.h"
+#include "lex.yy.h"
 
 int main(int argc, char* argv[]) {
   yyscan_t scanner;
@@ -7,9 +8,12 @@ int main(int argc, char* argv[]) {
 
   if(argc > 1) {
     yyset_in(fopen(argv[1], "rb"), scanner);
+  } else {
+    yyset_in(stdin, scanner);
   }
 
-  yylex(scanner);
+  yyparse(scanner);
+
   yylex_destroy(scanner);
   return 0;
 }
