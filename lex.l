@@ -1,6 +1,7 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
+  #include "dagon.h"
   #include "parse.tab.h"
 
   #define VALUE_TOKEN(type) return type

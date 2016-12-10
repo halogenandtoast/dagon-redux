@@ -1,9 +1,10 @@
 %{
   #include <stdio.h>
+  #include "dagon.h"
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  void yyerror(yyscan_t scanner, char const *msg);
+  void yyerror(yyscan_t scanner, dagon_env* env, char const *msg);
 %}
 
 %define parse.error verbose
@@ -11,6 +12,7 @@
 
 %lex-param {void* scanner}
 %parse-param {void* scanner}
+%parse-param {dagon_env* env}
 
 %start program
 
@@ -18,7 +20,7 @@
 
 %%
 
-program: statements { printf("OK\n"); }
+program: statements { env->node = NULL; }
        | opt_newlines
 
 statements: statements newlines statement
@@ -69,6 +71,6 @@ opt_newlines: newlines
 
 %%
 
-void yyerror(yyscan_t scanner, char const *msg) {
+void yyerror(yyscan_t scanner, dagon_env* env, char const *msg) {
   fprintf(stderr, "Error: %s line %d\n", msg, yyget_lineno(scanner));
 }
