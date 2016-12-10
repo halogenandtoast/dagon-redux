@@ -10,6 +10,7 @@
 %}
 
 %option noyywrap
+%option reentrant
 
 %s start
 %x indent

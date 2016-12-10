@@ -1,13 +1,15 @@
 #include <stdio.h>
-
-extern FILE* yyin;
-extern int yylex();
+#include "lex.yy.c"
 
 int main(int argc, char* argv[]) {
+  yyscan_t scanner;
+  yylex_init(&scanner);
+
   if(argc > 1) {
-    yyin = fopen(argv[1], "r");
+    yyset_in(fopen(argv[1], "rb"), scanner);
   }
 
-  yylex();
+  yylex(scanner);
+  yylex_destroy(scanner);
   return 0;
 }

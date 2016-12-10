@@ -1,12 +1,15 @@
 all: dagon
 
 CC=cc
+LEX=flex
 
-dagon: main.c lex.yy.c
+dagon: main.c
 	${CC} $^ -o $@
 
+main.c: lex.yy.c
+
 lex.yy.c: lex.l
-	flex lex.l
+	${LEX} lex.l
 
 .PHONY: clean
 
